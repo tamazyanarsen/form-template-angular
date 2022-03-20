@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
+import { FormFields } from '../../../types/form';
+
 @Component({
   selector: 'tsc-form-container',
   templateUrl: './form-container.component.html',
@@ -7,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormContainerComponent implements OnInit {
-  @Input() formFields: Record<string, unknown> = {};
+  @Input() formFields: FormFields = {};
 
   private initFieldsValue = {};
 
@@ -16,7 +18,6 @@ export class FormContainerComponent implements OnInit {
   ngOnInit(): void {
     const copyObject = (obj: Record<string, unknown>) => JSON.parse(JSON.stringify(obj));
     this.initFieldsValue = copyObject(this.formFields);
-
   }
 
 }
