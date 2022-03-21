@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ReplaySubject } from 'rxjs';
 
 import { FormFields } from '../../../types/form';
 
@@ -8,16 +9,24 @@ import { FormFields } from '../../../types/form';
   styleUrls: ['./form-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormContainerComponent implements OnInit {
+export class FormContainerComponent implements OnInit, OnChanges {
   @Input() formFields: FormFields = {};
+
+  formFieldsKeys = new ReplaySubject<string[]>(1);
 
   private initFieldsValue = {};
 
   constructor() {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes: ', changes);
+    if ('formFields' in changes) this.formFieldsKeys.next(Object.keys(this.formFields));
+  }
+
   ngOnInit(): void {
     const copyObject = (obj: Record<string, unknown>) => JSON.parse(JSON.stringify(obj));
     this.initFieldsValue = copyObject(this.formFields);
+    console.log('this.initFieldsValue: ', this.initFieldsValue);
   }
 
 }

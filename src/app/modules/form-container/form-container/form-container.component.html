@@ -1,3 +1,8 @@
 <form>
-
+  <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
+    <input placeholder="Введите значение" [type]="formFields[fieldName].type" [(ngModel)]="formFields[fieldName].value"
+      [name]="fieldName">
+  </ng-container>
 </form>
+
+{{formFields | json}}

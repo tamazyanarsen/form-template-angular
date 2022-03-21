@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { FormContainerComponent } from './form-container/form-container.component';
 
@@ -10,8 +11,9 @@ import { FormContainerComponent } from './form-container/form-container.componen
     FormContainerComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [FormContainerComponent]
 })
-export class FormContainerModule { }
+export class FormContainerModule {}
