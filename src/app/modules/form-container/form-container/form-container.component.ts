@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
-import { FormFields } from '../../../types/form';
+import { FormFields, FormFieldType } from '../../../types/form';
 
 @Component({
   selector: 'tsc-form-container',
@@ -13,6 +13,8 @@ export class FormContainerComponent implements OnInit, OnChanges {
   @Input() formFields: FormFields = {};
 
   formFieldsKeys = new ReplaySubject<string[]>(1);
+
+  FormFieldType = FormFieldType;
 
   private initFieldsValue = {};
 

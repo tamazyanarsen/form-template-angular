@@ -1,7 +1,21 @@
 <form>
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
-    <input placeholder="Введите значение" [type]="formFields[fieldName].type" [(ngModel)]="formFields[fieldName].value"
-      [name]="fieldName">
+    <ng-container [ngSwitch]="formFields[fieldName].type">
+      <div *ngSwitchCase="FormFieldType.select">
+        <label>
+          {{formFields[fieldName].label || ''}}
+          <select [name]="fieldName" [(ngModel)]="formFields[fieldName].value">
+            <option *ngFor=" let item of formFields[fieldName].options || []" [ngValue]="item.value">
+              {{item.label}}
+            </option>
+          </select>
+        </label>
+      </div>
+      <div *ngSwitchDefault>
+        <input placeholder="Введите значение" [type]="formFields[fieldName].type"
+          [(ngModel)]="formFields[fieldName].value" [name]="fieldName">
+      </div>
+    </ng-container>
   </ng-container>
 </form>
 

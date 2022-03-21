@@ -13,7 +13,15 @@ export class MainComponent {
 
   formFields: FormFields = {
     name: { value: 'test name', type: FormFieldType.text },
-    size: { value: 12, type: FormFieldType.number }
+    size: { value: 12, type: FormFieldType.number },
+    choose: {
+      value: 1, type: FormFieldType.select, label: 'Выбор из списка', options: [
+        { label: 'Первое значение', value: 1 },
+        { label: 'Второе значение', value: 2 },
+        { label: 'Третье значение', value: 3 },
+        { label: 'Четвертое значение', value: 4 },
+      ]
+    }
   }
 
   constructor() {}

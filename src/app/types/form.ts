@@ -1,5 +1,5 @@
 export type FormFields = {
-  [fieldName: string]: { value: unknown, type: FormFieldType }
+  [fieldName: string]: { value: unknown, type: FormFieldType, label?: string, options?: SelectFieldOption[] }
 }
 
 export enum FormFieldType {
@@ -7,4 +7,9 @@ export enum FormFieldType {
   number = 'number',
   select = 'select',
   switch = 'switch'
+}
+
+export type SelectFieldOption = {
+  value: string | number,
+  label: string
 }
