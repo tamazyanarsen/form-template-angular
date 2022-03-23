@@ -12,7 +12,14 @@ import { FormFieldType } from './../../../types/form';
 export class MainComponent {
 
   formFields: FormFields = {
-    name: { value: 'test name', type: FormFieldType.text },
+    name: {
+      value: 'test name', type: FormFieldType.text, validate: [
+        value => {
+          console.log(value);
+          return true;
+        }
+      ]
+    },
     size: { value: 12, type: FormFieldType.number },
     choose: {
       value: 1, type: FormFieldType.select, label: 'Выбор из списка', options: [

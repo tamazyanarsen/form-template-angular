@@ -31,4 +31,8 @@ export class FormContainerComponent implements OnInit, OnChanges {
     console.log('this.initFieldsValue: ', this.initFieldsValue);
   }
 
+  validateValueAfterChange(event, formFieldName: string): boolean {
+    // return this.formFields[formFieldName].validate
+  }
+
 }

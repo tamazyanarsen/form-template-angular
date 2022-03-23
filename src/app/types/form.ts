@@ -1,5 +1,13 @@
+type FormFieldInfo = {
+  value: unknown
+  type: FormFieldType
+  label?: string
+  options?: SelectFieldOption[]
+  validate?: Array<(value: unknown) => boolean>
+}
+
 export type FormFields = {
-  [fieldName: string]: { value: unknown, type: FormFieldType, label?: string, options?: SelectFieldOption[] }
+  [fieldName: string]: FormFieldInfo
 }
 
 export enum FormFieldType {
