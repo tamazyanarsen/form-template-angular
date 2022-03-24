@@ -15,7 +15,7 @@ export class MainComponent {
     name: {
       value: 'test name', type: FormFieldType.text, validate: [
         value => {
-          console.log(value);
+          console.log('value from validate function', value);
           return true;
         }
       ]

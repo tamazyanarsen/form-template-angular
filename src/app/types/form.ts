@@ -1,4 +1,4 @@
-type FormFieldInfo = {
+export type FormFieldInfo = {
   value: unknown
   type: FormFieldType
   label?: string
@@ -21,3 +21,5 @@ export type SelectFieldOption = {
   value: string | number,
   label: string
 }
+
+export type FormFieldName = 'value' | 'type' | 'label' | 'options' | 'validate';
