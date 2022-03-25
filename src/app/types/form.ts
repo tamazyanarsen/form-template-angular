@@ -1,12 +1,13 @@
-export type FormFieldInfo = {
+export interface FormFieldInfo {
   value: unknown
   type: FormFieldType
   label?: string
   options?: SelectFieldOption[]
-  validate?: Array<(value: unknown) => boolean>
+  validate?: Array<(value: unknown) => boolean>,
+  isValid?: boolean
 }
 
-export type FormFields = {
+export interface FormFields {
   [fieldName: string]: FormFieldInfo
 }
 
@@ -17,9 +18,11 @@ export enum FormFieldType {
   switch = 'switch'
 }
 
-export type SelectFieldOption = {
+export interface SelectFieldOption {
   value: string | number,
   label: string
 }
 
 export type FormFieldName = 'value' | 'type' | 'label' | 'options' | 'validate';
+
+export type FieldValidClb<T> = (fieldName: string, valid: boolean) => T;

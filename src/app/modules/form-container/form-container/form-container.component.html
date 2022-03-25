@@ -14,6 +14,7 @@
       <div *ngSwitchDefault>
         <input placeholder="Введите значение" [type]="form[fieldName].type" [(ngModel)]="form[fieldName].value"
           [name]="fieldName">
+        {{form[fieldName].isValid}}
       </div>
     </ng-container>
   </ng-container>

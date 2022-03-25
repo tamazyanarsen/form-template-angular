@@ -1,6 +1,6 @@
 import { FormFieldInfo, FormFields } from 'src/app/types/form';
 
-import { FormFieldName } from '../../types/form';
+import { FieldValidClb, FormFieldName } from '../../types/form';
 
 export function getFormHandler(): ProxyHandler<FormFields> {
   return {
@@ -21,7 +21,7 @@ export function getFormHandler(): ProxyHandler<FormFields> {
   };
 }
 
-export function getFormFieldHandler(): ProxyHandler<FormFieldInfo> {
+export function getFormFieldHandler(fieldValidClb?: FieldValidClb<unknown>): ProxyHandler<FormFieldInfo> {
   return {
     get(target, p: FormFieldName) {
       // console.log('getter target, p: ', target, p);
@@ -32,7 +32,10 @@ export function getFormFieldHandler(): ProxyHandler<FormFieldInfo> {
       try {
         target[p] = value;
         if (target.validate) {
-          console.log('VALIDATE', target, target.validate?.every(e => e(value)));
+          const isValid = target.validate?.every(e => e(value));
+          target.isValid = isValid;
+          console.log('VALIDATE', target, isValid);
+          fieldValidClb && fieldValidClb(p, isValid);
         }
         return true;
       } catch (error) {

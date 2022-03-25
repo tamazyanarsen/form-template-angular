@@ -16,7 +16,7 @@ export class MainComponent {
       value: 'test name', type: FormFieldType.text, validate: [
         value => {
           console.log('value from validate function', value);
-          return true;
+          return (<string>value).length < 10;
         }
       ]
     },

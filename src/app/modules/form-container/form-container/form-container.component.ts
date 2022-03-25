@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
-import { FormFields, FormFieldType } from '../../../types/form';
+import { FieldValidClb, FormFields, FormFieldType } from '../../../types/form';
 import { getFormFieldHandler, getFormHandler } from '../utils';
 
 @Component({
@@ -35,17 +35,15 @@ export class FormContainerComponent implements OnInit, OnChanges {
 
     const resultProxy: FormFields = new Proxy(this.formFields, getFormHandler());
     Object.keys(resultProxy).forEach(key => {
-      resultProxy[key] = new Proxy(resultProxy[key], getFormFieldHandler());
+      resultProxy[key] = new Proxy(resultProxy[key], getFormFieldHandler(this.getFieldValidClb()));
     });
     this.formProxy.next(resultProxy);
   }
 
-  private validateValueAfterChange(event: Event, fieldName: string): boolean {
-    console.log('event: ', event);
-    if (!this.formFields[fieldName].validate) return true;
-
-    const value = 12;
-    return this.formFields[fieldName].validate?.every(e => e(value)) || false;
+  private getFieldValidClb(): FieldValidClb<void> {
+    return (fieldName: string, valid: boolean) => {
+      console.log('fieldName, valid:', fieldName, valid);
+    }
   }
 
 }
