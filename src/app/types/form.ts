@@ -25,4 +25,9 @@ export interface SelectFieldOption {
 
 export type FormFieldName = 'value' | 'type' | 'label' | 'options' | 'validate';
 
-export type FieldValidClb<T> = (fieldName: string, valid: boolean) => T;
+export type FieldValidClb<T> = (valid: boolean) => T;
+
+export interface FormFieldChange {
+  fieldName: string,
+  form: FormFields
+}

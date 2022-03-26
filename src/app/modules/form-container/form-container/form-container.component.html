@@ -1,23 +1,23 @@
-<form *ngIf="formProxy | async as form" class="form-container">
+<form *ngIf="formFields as formValue" class="form-container" (change)="formChangeEmit()">
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
-    <ng-container [ngSwitch]="form[fieldName].type">
+    <ng-container [ngSwitch]="formValue[fieldName].type">
       <div *ngSwitchCase="FormFieldType.select">
         <label>
-          {{form[fieldName].label || ''}}
-          <select class="form-field" [name]="fieldName" [(ngModel)]="form[fieldName].value">
-            <option *ngFor=" let item of form[fieldName].options || []" [ngValue]="item.value">
+          {{formValue[fieldName].label || ''}}
+          <select class="form-field" [name]="fieldName" [(ngModel)]="formValue[fieldName].value">
+            <option *ngFor=" let item of formValue[fieldName].options || []" [ngValue]="item.value">
               {{item.label}}
             </option>
           </select>
         </label>
       </div>
       <div *ngSwitchDefault>
-        <input class="form-field" placeholder="Введите значение" [type]="form[fieldName].type"
-          [(ngModel)]="form[fieldName].value" [name]="fieldName"
-          [ngClass]="{valid:form[fieldName].isValid, invalid: !form[fieldName].isValid}">
-        {{form[fieldName].isValid}}
+        <input class="form-field" placeholder="Введите значение" [type]="formValue[fieldName].type"
+          [(ngModel)]="formValue[fieldName].value" [name]="fieldName" (ngModelChange)="fieldChanged(fieldName, $event)"
+          [ngClass]="{valid:formValue[fieldName].isValid, invalid: !formValue[fieldName].isValid}">
+        {{formValue[fieldName].isValid}}
       </div>
     </ng-container>
   </ng-container>
-  {{form | json}}
+  {{formValue | json}}
 </form>

@@ -20,7 +20,10 @@ export class MainComponent {
         }
       ]
     },
-    size: { value: 12, type: FormFieldType.number },
+    size: {
+      value: 12, type: FormFieldType.number,
+      validate: [value => <number>value < 100]
+    },
     choose: {
       value: 1, type: FormFieldType.select, label: 'Выбор из списка', options: [
         { label: 'Первое значение', value: 1 },
@@ -32,5 +35,9 @@ export class MainComponent {
   }
 
   constructor() {}
+
+  test(...args: unknown[]): void {
+    console.log('args: ', args);
+  }
 
 }

@@ -1,8 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { copyObject } from 'src/app/config/utils';
 
-import { FieldValidClb, FormFields, FormFieldType } from '../../../types/form';
-import { copyObject, getFormFieldHandler, getFormHandler } from '../utils';
+import { FormFieldChange, FormFields, FormFieldType } from '../../../types/form';
 
 @Component({
   selector: 'tsc-form-container',
@@ -17,7 +26,9 @@ export class FormContainerComponent implements OnInit, OnChanges {
 
   FormFieldType = FormFieldType;
 
-  formProxy = new ReplaySubject<FormFields>(1);
+  @Output() formFieldChange = new EventEmitter<FormFieldChange>();
+
+  @Output() formChange = new EventEmitter<FormFields>();
 
   private initFieldsValue = {};
 
@@ -34,23 +45,18 @@ export class FormContainerComponent implements OnInit, OnChanges {
     });
     this.initFieldsValue = copyObject(this.formFields);
     console.log('this.initFieldsValue: ', this.initFieldsValue);
-
-    this.formProxy.next(this.createFormProxy());
   }
 
-  private createFormProxy(): FormFields {
-    const resultProxy: FormFields = new Proxy(this.formFields, getFormHandler());
-    Object.keys(resultProxy).forEach(key => {
-      resultProxy[key] = new Proxy(resultProxy[key], getFormFieldHandler(this.getFieldValidClb()));
-    });
-
-    return resultProxy;
+  formChangeEmit(): void {
+    this.formChange.emit(this.formFields);
   }
 
-  private getFieldValidClb(): FieldValidClb<void> {
-    return (fieldName: string, valid: boolean) => {
-      console.log('fieldName, valid:', fieldName, valid);
+  fieldChanged(fieldName: string, value: unknown): void {
+    const validateList = this.formFields[fieldName].validate;
+    if (validateList) {
+      validateList.every(e => e(value));
     }
+    this.formFieldChange.emit({ fieldName, form: this.formFields });
   }
 
 }
