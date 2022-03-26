@@ -45,3 +45,7 @@ export function getFormFieldHandler(fieldValidClb?: FieldValidClb<unknown>): Pro
     }
   };
 }
+
+export function copyObject(obj: Record<string, unknown>) {
+  return JSON.parse(JSON.stringify(obj))
+};

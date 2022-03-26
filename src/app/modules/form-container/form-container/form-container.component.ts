@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleCha
 import { ReplaySubject } from 'rxjs';
 
 import { FieldValidClb, FormFields, FormFieldType } from '../../../types/form';
-import { getFormFieldHandler, getFormHandler } from '../utils';
+import { copyObject, getFormFieldHandler, getFormHandler } from '../utils';
 
 @Component({
   selector: 'tsc-form-container',
@@ -29,15 +29,22 @@ export class FormContainerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    const copyObject = (obj: Record<string, unknown>) => JSON.parse(JSON.stringify(obj));
+    Object.keys(this.formFields).forEach(key => {
+      if (this.formFields[key].isValid === undefined) this.formFields[key].isValid = true;
+    });
     this.initFieldsValue = copyObject(this.formFields);
     console.log('this.initFieldsValue: ', this.initFieldsValue);
 
+    this.formProxy.next(this.createFormProxy());
+  }
+
+  private createFormProxy(): FormFields {
     const resultProxy: FormFields = new Proxy(this.formFields, getFormHandler());
     Object.keys(resultProxy).forEach(key => {
       resultProxy[key] = new Proxy(resultProxy[key], getFormFieldHandler(this.getFieldValidClb()));
     });
-    this.formProxy.next(resultProxy);
+
+    return resultProxy;
   }
 
   private getFieldValidClb(): FieldValidClb<void> {

@@ -1,10 +1,10 @@
-<form *ngIf="formProxy | async as form">
+<form *ngIf="formProxy | async as form" class="form-container">
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
     <ng-container [ngSwitch]="form[fieldName].type">
       <div *ngSwitchCase="FormFieldType.select">
         <label>
           {{form[fieldName].label || ''}}
-          <select [name]="fieldName" [(ngModel)]="form[fieldName].value">
+          <select class="form-field" [name]="fieldName" [(ngModel)]="form[fieldName].value">
             <option *ngFor=" let item of form[fieldName].options || []" [ngValue]="item.value">
               {{item.label}}
             </option>
@@ -12,8 +12,9 @@
         </label>
       </div>
       <div *ngSwitchDefault>
-        <input placeholder="Введите значение" [type]="form[fieldName].type" [(ngModel)]="form[fieldName].value"
-          [name]="fieldName">
+        <input class="form-field" placeholder="Введите значение" [type]="form[fieldName].type"
+          [(ngModel)]="form[fieldName].value" [name]="fieldName"
+          [ngClass]="{valid:form[fieldName].isValid, invalid: !form[fieldName].isValid}">
         {{form[fieldName].isValid}}
       </div>
     </ng-container>
