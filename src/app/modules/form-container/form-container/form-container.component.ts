@@ -54,7 +54,7 @@ export class FormContainerComponent implements OnInit, OnChanges {
   fieldChanged(fieldName: string, value: unknown): void {
     const validateList = this.formFields[fieldName].validate;
     if (validateList) {
-      validateList.every(e => e(value));
+      this.formFields[fieldName].isValid = validateList.every(e => e(value));
     }
     this.formFieldChange.emit({ fieldName, form: this.formFields });
   }
