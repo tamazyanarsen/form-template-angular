@@ -2,19 +2,22 @@
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
     <ng-container [ngSwitch]="formValue[fieldName].type">
       <div *ngSwitchCase="FormFieldType.select">
-        <label>
-          {{formValue[fieldName].label || ''}}
-          <select class="form-field" [name]="fieldName" [(ngModel)]="formValue[fieldName].value">
-            <option *ngFor=" let item of formValue[fieldName].options || []" [ngValue]="item.value">
-              {{item.label}}
-            </option>
-          </select>
-        </label>
+        <mat-form-field>
+          <mat-label>{{formValue[fieldName].label || ''}}</mat-label>
+          <mat-select [(value)]="formValue[fieldName].value">
+            <mat-option *ngFor="let item of formValue[fieldName].options || []" [value]="item.value">{{item.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div *ngSwitchDefault>
-        <input class="form-field" placeholder="Введите значение" [type]="formValue[fieldName].type"
-          [(ngModel)]="formValue[fieldName].value" [name]="fieldName" (ngModelChange)="fieldChanged(fieldName, $event)"
-          [ngClass]="{valid:formValue[fieldName].isValid, invalid: !formValue[fieldName].isValid}">
+        <mat-form-field>
+          <mat-label>{{formValue[fieldName].label || 'Some label'}}</mat-label>
+          <input matInput placeholder="Введите значение" [type]="formValue[fieldName].type"
+            [(ngModel)]="formValue[fieldName].value" [name]="fieldName"
+            (ngModelChange)="fieldChanged(fieldName, $event)"
+            [ngClass]="{valid:formValue[fieldName].isValid, invalid: !formValue[fieldName].isValid}">
+        </mat-form-field>
         {{formValue[fieldName].isValid}}
       </div>
     </ng-container>
