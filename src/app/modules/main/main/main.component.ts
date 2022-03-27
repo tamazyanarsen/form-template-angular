@@ -31,6 +31,11 @@ export class MainComponent {
         { label: 'Третье значение', value: 3 },
         { label: 'Четвертое значение', value: 4 },
       ]
+    },
+    isMain: {
+      value: true,
+      type: FormFieldType.switch,
+      label: 'Тестовое поле для checkbox'
     }
   }
 

@@ -11,6 +11,7 @@ import {
 import { ReplaySubject } from 'rxjs';
 import { copyObject } from 'src/app/config/utils';
 
+import { asBoolean } from '../../../config/utils';
 import { FormFieldChange, FormFields, FormFieldType } from '../../../types/form';
 
 @Component({
@@ -25,6 +26,8 @@ export class FormContainerComponent implements OnInit, OnChanges {
   formFieldsKeys = new ReplaySubject<string[]>(1);
 
   FormFieldType = FormFieldType;
+
+  asBoolean = asBoolean;
 
   @Output() formFieldChange = new EventEmitter<FormFieldChange>();
 
