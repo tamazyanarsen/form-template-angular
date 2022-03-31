@@ -12,16 +12,14 @@
         </label>
       </div>
       <div *ngSwitchCase="FormFieldType.switch">
-        <tsc-ui-switch [label]="formFields[fieldName].label || 'some label'" [(value)]="formFields[fieldName].value">
+        <tsc-ui-switch [label]="formFields[fieldName].label || 'some label'" [formControlName]="fieldName">
         </tsc-ui-switch>
       </div>
       <div *ngSwitchDefault>
         <input class="form-field" placeholder="Введите значение" [type]="formFields[fieldName].type"
-          [(ngModel)]="formFields[fieldName].value" [name]="fieldName"
-          [ngClass]="{valid:formFields[fieldName].isValid, invalid: !formFields[fieldName].isValid}">
-        {{formFields[fieldName].isValid}}
+          [formControlName]="fieldName" [ngClass]="getFormControlValidClass(formGroupValue, fieldName)">
       </div>
     </ng-container>
   </ng-container>
-  {{formFields | json}}
+  {{formGroupValue.value | json}}
 </form>

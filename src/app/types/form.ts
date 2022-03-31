@@ -5,8 +5,7 @@ export interface FormFieldInfo {
   type: FormFieldType
   label?: string
   options?: SelectFieldOption[]
-  validate?: Array<(control: AbstractControl) => ValidationErrors | null>,
-  isValid?: boolean
+  validate?: Array<(control: AbstractControl) => ValidationErrors | null>
 }
 
 export interface FormFields {
@@ -32,4 +31,11 @@ export type FieldValidClb<T> = (valid: boolean) => T;
 export interface FormFieldChange {
   fieldName: string,
   form: FormFields
+}
+
+export enum FormStatus {
+  VALID = 'VALID',
+  INVALID = 'INVALID',
+  PENDING = 'PENDING',
+  DISABLED = 'DISABLED'
 }

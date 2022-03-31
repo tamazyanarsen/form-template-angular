@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
-import { FormFields, FormFieldType } from '../../../types/form';
+import { FormFields, FormFieldType, FormStatus } from '../../../types/form';
 
 @Component({
   selector: 'tsc-form-container',
@@ -17,17 +17,31 @@ export class FormContainerComponent implements OnInit, OnChanges {
 
   FormFieldType = FormFieldType;
 
-  formGroup = new Subject<FormGroup>();
+  formGroup = new ReplaySubject<FormGroup>();
+
+  FormStatus = FormStatus;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes: ', changes);
     if ('formFields' in changes) this.formFieldsKeys.next(Object.keys(this.formFields));
+    this.formGroup.next(this.createFormGroup());
+  }
+
+  test(...args: unknown[]): void {
+    console.log(args);
   }
 
   ngOnInit(): void {
-    this.formGroup.next(this.createFormGroup());
+    console.log('on init');
+  }
+
+  getFormControlValidClass(formGroupValue: FormGroup, fieldName: string): Record<string, boolean> {
+    return {
+      valid: formGroupValue.get(fieldName)?.status === FormStatus.VALID,
+      invalid: formGroupValue.get(fieldName)?.status === FormStatus.INVALID
+    }
   }
 
   private createFormGroup(): FormGroup {

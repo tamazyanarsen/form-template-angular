@@ -1,5 +1,5 @@
 <label class="switch">
   {{label}}
-  <input type="checkbox" [(ngModel)]="value" (ngModelChange)="valueChange.emit($event)">
+  <input type="checkbox" [(ngModel)]="value" (ngModelChange)="changeValue($event)">
   <span class="slider round"></span>
 </label>
