@@ -1,9 +1,11 @@
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
 export interface FormFieldInfo {
   value: unknown
   type: FormFieldType
   label?: string
   options?: SelectFieldOption[]
-  validate?: Array<(value: unknown) => boolean>,
+  validate?: Array<(control: AbstractControl) => ValidationErrors | null>,
   isValid?: boolean
 }
 

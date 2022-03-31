@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UiSwitchModule } from '../ui-switch/ui-switch.module';
 import { FormContainerComponent } from './form-container/form-container.component';
@@ -13,7 +13,8 @@ import { FormContainerComponent } from './form-container/form-container.componen
   imports: [
     CommonModule,
     FormsModule,
-    UiSwitchModule
+    UiSwitchModule,
+    ReactiveFormsModule
   ],
   providers: [],
   exports: [FormContainerComponent]

@@ -1,27 +1,27 @@
-<form *ngIf="formFields as formValue" class="form-container" (change)="formChangeEmit()">
+<form *ngIf="formGroup | async as formGroupValue" class="form-container" [formGroup]="formGroupValue">
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
-    <ng-container [ngSwitch]="formValue[fieldName].type">
+    <ng-container [ngSwitch]="formFields[fieldName].type">
       <div *ngSwitchCase="FormFieldType.select">
         <label>
-          {{formValue[fieldName].label || ''}}
-          <select class="form-field" [name]="fieldName" [(ngModel)]="formValue[fieldName].value">
-            <option *ngFor=" let item of formValue[fieldName].options || []" [ngValue]="item.value">
+          {{formFields[fieldName].label}}
+          <select class="form-field" [formControlName]="fieldName">
+            <option *ngFor=" let item of formFields[fieldName].options || []" [ngValue]="item.value">
               {{item.label}}
             </option>
           </select>
         </label>
       </div>
       <div *ngSwitchCase="FormFieldType.switch">
-        <tsc-ui-switch [label]="formValue[fieldName].label || 'some label'" [(value)]="formValue[fieldName].value">
+        <tsc-ui-switch [label]="formFields[fieldName].label || 'some label'" [(value)]="formFields[fieldName].value">
         </tsc-ui-switch>
       </div>
       <div *ngSwitchDefault>
-        <input class="form-field" placeholder="Введите значение" [type]="formValue[fieldName].type"
-          [(ngModel)]="formValue[fieldName].value" [name]="fieldName" (ngModelChange)="fieldChanged(fieldName, $event)"
-          [ngClass]="{valid:formValue[fieldName].isValid, invalid: !formValue[fieldName].isValid}">
-        {{formValue[fieldName].isValid}}
+        <input class="form-field" placeholder="Введите значение" [type]="formFields[fieldName].type"
+          [(ngModel)]="formFields[fieldName].value" [name]="fieldName"
+          [ngClass]="{valid:formFields[fieldName].isValid, invalid: !formFields[fieldName].isValid}">
+        {{formFields[fieldName].isValid}}
       </div>
     </ng-container>
   </ng-container>
-  {{formValue | json}}
+  {{formFields | json}}
 </form>

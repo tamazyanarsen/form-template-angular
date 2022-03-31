@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Validators } from '@angular/forms';
 
 import { FormFields } from '../../../types/form';
 import { FormFieldType } from './../../../types/form';
@@ -13,19 +14,26 @@ export class MainComponent {
 
   formFields: FormFields = {
     name: {
-      value: 'test name', type: FormFieldType.text, validate: [
-        value => {
-          console.log('value from validate function', value);
-          return (<string>value).length < 10;
-        }
+      value: 'test name',
+      type: FormFieldType.text,
+      validate: [
+        control => {
+          console.log('value from validate function', control.value);
+          return (<string>control.value).length < 10 ? null : { error: 'описание текстовой ошибки' };
+        },
+        Validators.required
       ]
     },
     size: {
-      value: 12, type: FormFieldType.number,
-      validate: [value => <number>value < 100]
+      value: 12,
+      type: FormFieldType.number,
+      validate: [control => +control.value < 100 ? null : { error: 'описание ошибки, проверка числа' }]
     },
     choose: {
-      value: 1, type: FormFieldType.select, label: 'Выбор из списка', options: [
+      value: 1,
+      type: FormFieldType.select,
+      label: 'Выбор из списка',
+      options: [
         { label: 'Первое значение', value: 1 },
         { label: 'Второе значение', value: 2 },
         { label: 'Третье значение', value: 3 },
