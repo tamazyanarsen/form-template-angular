@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, switchMap } from 'rxjs';
 
 import { FormFields, FormFieldType, FormStatus } from '../../../types/form';
 
@@ -10,8 +10,10 @@ import { FormFields, FormFieldType, FormStatus } from '../../../types/form';
   styleUrls: ['./form-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormContainerComponent implements OnInit, OnChanges {
+export class FormContainerComponent implements OnChanges {
   @Input() formFields: FormFields = {};
+
+  @Output() formGroupChange = new EventEmitter<unknown>();
 
   formFieldsKeys = new ReplaySubject<string[]>(1);
 
@@ -27,14 +29,20 @@ export class FormContainerComponent implements OnInit, OnChanges {
     console.log('changes: ', changes);
     if ('formFields' in changes) this.formFieldsKeys.next(Object.keys(this.formFields));
     this.formGroup.next(this.createFormGroup());
+    this.sendFormChangeEvent();
+  }
+
+  private sendFormChangeEvent(): void {
+    this.formGroup
+      .pipe(switchMap(formGroupValue => formGroupValue.valueChanges))
+      .subscribe(formValue => this.formGroupChange.emit(formValue));
   }
 
   test(...args: unknown[]): void {
     console.log(args);
-  }
-
-  ngOnInit(): void {
-    console.log('on init');
+    this.formGroup.subscribe(formGroup => {
+      formGroup.valueChanges.subscribe()
+    })
   }
 
   getFormControlValidClass(formGroupValue: FormGroup, fieldName: string): Record<string, boolean> {
