@@ -2,11 +2,14 @@
   display: flex;
   flex-direction: column;
 
+  .form-field-container {
+    margin: 1em;
+  }
+
   .form-field {
     border: none;
     outline: none;
     border-bottom: 2px solid lightblue;
-    margin: 1em;
     // -webkit-appearance: none;
     // appearance: none;
     // visibility: hidden;

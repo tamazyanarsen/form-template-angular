@@ -1,7 +1,7 @@
 <form *ngIf="formGroup as formGroupValue" class="form-container" [formGroup]="formGroupValue">
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
     <ng-container [ngSwitch]="formFields[fieldName].type">
-      <div *ngSwitchCase="FormFieldType.select">
+      <div *ngSwitchCase="FormFieldType.select" class="form-field-container">
         <label>
           {{formFields[fieldName].label}}
           <select class="form-field" [formControlName]="fieldName">
@@ -11,11 +11,11 @@
           </select>
         </label>
       </div>
-      <div *ngSwitchCase="FormFieldType.switch">
+      <div *ngSwitchCase="FormFieldType.switch" class="form-field-container">
         <tsc-ui-switch [label]="formFields[fieldName].label || 'some label'" [formControlName]="fieldName">
         </tsc-ui-switch>
       </div>
-      <div *ngSwitchDefault>
+      <div *ngSwitchDefault class="form-field-container">
         <input class="form-field" placeholder="Введите значение" [type]="formFields[fieldName].type"
           [formControlName]="fieldName" [ngClass]="getFormControlValidClass(formGroupValue, fieldName)">
       </div>
