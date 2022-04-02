@@ -1,4 +1,4 @@
-<form *ngIf="formGroup | async as formGroupValue" class="form-container" [formGroup]="formGroupValue">
+<form *ngIf="formGroup as formGroupValue" class="form-container" [formGroup]="formGroupValue">
   <ng-container *ngFor="let fieldName of (formFieldsKeys | async)">
     <ng-container [ngSwitch]="formFields[fieldName].type">
       <div *ngSwitchCase="FormFieldType.select">
@@ -22,4 +22,7 @@
     </ng-container>
   </ng-container>
   {{formGroupValue.value | json}}
+
+  <button type="submit" (click)="submitForm.emit(formGroupValue.value)">Сохранить</button>
+  <button type="button" (click)="resetForm()">Отменить изменения</button>
 </form>
